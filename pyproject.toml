@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pyjuice"
+name = "pyjuicex"
 version="2.2.0"
 description = "Probabilistic Circuits Library"
 dependencies = [
