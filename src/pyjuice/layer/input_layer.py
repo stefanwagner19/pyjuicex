@@ -499,7 +499,7 @@ class InputLayer(Layer, nn.Module):
                 nv_block_size = triton.next_power_of_2(self.num_vars_per_node),
                 batch_size = batch_size, 
                 BLOCK_SIZE = BLOCK_SIZE,
-                seed = seed if seed is not None else random.randint(0, 1e8)
+                seed = seed if seed is not None else np.random.randint(0, 1e8)
             )
 
         else:
@@ -1107,7 +1107,7 @@ class InputLayer(Layer, nn.Module):
             lambda str: str.strip(" "),
             filter(lambda arg: arg.split(":")[0].strip(" ") not in sub_fns, fn_args)
         ))
-        seed_str = f"_{random.randint(0,1e8)}"
+        seed_str = f"_{np.random.randint(0,1e8)}"
         new_fn_header = fn_name + seed_str + "(" + ",".join(fn_args) + "):"
         global_key = fn_name.split("def")[1].strip(" ") + seed_str
 
