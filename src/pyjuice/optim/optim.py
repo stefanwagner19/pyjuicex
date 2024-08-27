@@ -8,7 +8,7 @@ from pyjuice.model import TensorCircuit
 
 class CircuitOptimizer():
 
-    SUPPORTED_OPTIM_METHODS = ["EM", "Viterbi", "GeneralEM"]
+    SUPPORTED_OPTIM_METHODS = ["EM", "Viterbi", "GeneralEM", "TorchOnly"]
 
     def __init__(self, pc: TensorCircuit, base_optimizer: Optional[Optimizer] = None, method: str = "EM", lr: float = 0.1,
                  pseudocount: float = 0.1, **kwargs):
@@ -30,14 +30,17 @@ class CircuitOptimizer():
         self.pc.init_param_flows(flows_memory = 0.0)
 
     def step(self, closure = None):
-        if self.base_optimizer is not None:
-            self.base_optimizer.step()
+        # if self.base_optimizer is not None:
+        #     self.base_optimizer.step()
 
         if self.method == "EM":
             self.pc.mini_batch_em(
                 step_size = self.lr,
                 pseudocount = self.pseudocount
             )
+        elif self.method == "TorchOnly":
+            if self.base_optimizer is None:
+                raise ValueError(f"TorchOnly requires torch.Optim base optimizer")
         else:
             raise ValueError(f"Unknown PC optimization method {self.method}.")
 
