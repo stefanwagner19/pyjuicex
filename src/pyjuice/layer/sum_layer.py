@@ -1178,11 +1178,6 @@ class SumLayer(Layer, nn.Module):
                     )
 
         return None
-    
-    # self._forward_pytorch_kernel(
-    #         node_mars, element_mars, params, nids, cids, pids, local_ids,
-    #         propagation_alg_id = propagation_alg_id, **propagation_alg_kwargs
-    #     )
 
     @torch.compile
     def _forward_pytorch_kernel(self, node_mars: torch.Tensor, element_mars: torch.Tensor, params: torch.Tensor, 
