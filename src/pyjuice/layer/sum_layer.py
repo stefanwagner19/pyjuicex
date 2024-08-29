@@ -400,7 +400,7 @@ class SumLayer(Layer, nn.Module):
         batch_size = node_mars.size(1)
 
         if mode is not None:
-            assert mode in STR2MODE
+            assert mode in self.STR2MODE
             mode = self.STR2MODE[mode]
 
         elif params.dim() == 1 and self.block_size >= 16 and num_edges >= 16 and batch_size >= 16:
@@ -1178,10 +1178,14 @@ class SumLayer(Layer, nn.Module):
                     )
 
         return None
+    
+    # self._forward_pytorch_kernel(
+    #         node_mars, element_mars, params, nids, cids, pids, local_ids,
+    #         propagation_alg_id = propagation_alg_id, **propagation_alg_kwargs
+    #     )
 
-    @staticmethod
     @torch.compile
-    def _forward_pytorch_kernel(node_mars: torch.Tensor, element_mars: torch.Tensor, params: torch.Tensor, 
+    def _forward_pytorch_kernel(self, node_mars: torch.Tensor, element_mars: torch.Tensor, params: torch.Tensor, 
                                 nids: torch.Tensor, cids: torch.Tensor, pids: torch.Tensor,
                                 local_ids: torch.Tensor, propagation_alg_id: int, alpha: float = 0.0):
 
@@ -1215,7 +1219,7 @@ class SumLayer(Layer, nn.Module):
 
         return None
 
-    def _forward_pytorch(node_mars: torch.Tensor, element_mars: torch.Tensor, params: torch.Tensor, 
+    def _forward_pytorch(self, node_mars: torch.Tensor, element_mars: torch.Tensor, params: torch.Tensor, 
                          nids: torch.Tensor, cids: torch.Tensor, pids: torch.Tensor,
                          local_ids: torch.Tensor, propagation_alg: str = "LL", **kwargs):
 
@@ -1265,7 +1269,7 @@ class SumLayer(Layer, nn.Module):
         batch_size = node_flows.size(1)
 
         if mode is not None:
-            assert mode in STR2MODE
+            assert mode in self.STR2MODE
             mode = self.STR2MODE[mode]
 
         elif params.dim() == 1 and self.block_size >= 16 and num_edges >= 16 and batch_size >= 16:
